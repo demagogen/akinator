@@ -1,0 +1,22 @@
+digraph {bgcolor="#696969" rankdir = TB
+Info[shape=Mrecord,style=filled,fillcolor="grey",label="capacity: 5",fontcolor = "black",fontsize = 14];
+
+node0[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x5fcd80d6d2b0 | type:   4 | parent: (nil) | left:   0x5fcd80d6eeb0 | right:  (nil) | element: (null)}"];  
+
+node0->node1[color = "grey"];
+node1[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x5fcd80d6eeb0 | type:   1 | parent: 0x5fcd80d6d2b0 | left:   0x5fcd80d6eee0 | right:  0x5fcd80d6ef70 | element: hello}"];  
+
+node1->node2[color = "grey"];
+node2[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x5fcd80d6eee0 | type:   1 | parent: 0x5fcd80d6eeb0 | left:   0x5fcd80d6ef10 | right:  0x5fcd80d6ef40 | element: Goblin}"];  
+
+node2->node3[color = "grey"];
+node3[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x5fcd80d6ef10 | type:   1 | parent: 0x5fcd80d6eee0 | left:   (nil) | right:  (nil) | element: Help}"];  
+
+node2->node4[color = "grey"];
+node4[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x5fcd80d6ef40 | type:   2 | parent: 0x5fcd80d6eee0 | left:   (nil) | right:  (nil) | element: I can do it my own )}"];  
+
+node1->node5[color = "grey"];
+node5[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x5fcd80d6ef70 | type:   2 | parent: 0x5fcd80d6eeb0 | left:   (nil) | right:  (nil) | element: take it}"];  
+
+
+}

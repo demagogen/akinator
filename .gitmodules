@@ -1,0 +1,6 @@
+[submodule "binary_tree"]
+	path = lib/binary_tree
+	url = https://github.com/demagogen/binary_tree.git
+[submodule "color_scheme_changer"]
+	path = lib/color_scheme_changer
+	url = https://github.com/demagogen/color_scheme_changer.git

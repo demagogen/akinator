@@ -1,0 +1,7 @@
+digraph {bgcolor="#696969" rankdir = TB
+Info[shape=Mrecord,style=filled,fillcolor="grey",label="capacity: 0",fontcolor = "black",fontsize = 14];
+
+node0[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x5bd0e87482b0 | parent: (nil) | left:   (nil) | right:  (nil) | element: label}"];  
+
+
+}
