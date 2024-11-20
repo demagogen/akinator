@@ -53,34 +53,35 @@ TREE_ERROR tree_add(TREE* treeInfo, NODE* parentNodeInfo, TREE_UTILS add_rule, N
 {
     assert(treeInfo);
     // assert(parentNodeInfo);
+printf("in tree_add\n");
+printf("the rule: %d\n", add_rule);
 
-    if (parentNodeInfo == NULL)
+    if (add_rule == RIGHT)
     {
-        treeInfo->error = TREE_NODE_ALLOCATION_ERROR;
-
-        return treeInfo->error;
+        printf("in right case\n");
+        parentNodeInfo->right         = tree_node_ctor(element);
+        parentNodeInfo->right->parent = parentNodeInfo;
+        parentNodeInfo->right->side   = RIGHT;
     }
-
-    switch(add_rule)
+    if (add_rule == LEFT)
     {
-        case(RIGHT):
-            parentNodeInfo->right = tree_node_ctor(element);
-            parentNodeInfo->right->parent = parentNodeInfo;
-            parentNodeInfo->right->side   = RIGHT;
-            break;
+        printf("in left case\n");
+        parentNodeInfo->left         = tree_node_ctor(element);
+        parentNodeInfo->left->parent = parentNodeInfo;
+        parentNodeInfo->left->side   = LEFT;
+    }
+    if (add_rule == ROOT)
+    {
+        printf("in root case\n");
+        treeInfo->root->element = element;
+        treeInfo->root->side    = ROOT;
+    }
+    else
+    {
+        printf("in default case\n");
+        treeInfo->error = TREE_ERROR_SIDE;
 
-        case(LEFT):
-            parentNodeInfo->left = tree_node_ctor(element);
-            parentNodeInfo->left->parent = parentNodeInfo;
-            parentNodeInfo->left->side   = LEFT;
-            break;
-
-        case(ROOT):
-            treeInfo->root->element = element;
-            treeInfo->root->side    = ROOT;
-
-        default:
-            return TREE_ERROR_SIDE;
+        return TREE_ERROR_SIDE;
     }
 
     treeInfo->capacity++;

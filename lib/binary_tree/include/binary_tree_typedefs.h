@@ -44,11 +44,11 @@ enum TREE_ERROR
 
 struct NODE
 {
-    TREE_UTILS side;
-    NODE*      parent;
-    NODE*      left;
-    NODE*      right;
-    NodeElem_t element;
+    TREE_UTILS              side;
+    NODE*                   parent;
+    NODE*                   left;
+    NODE*                   right;
+    NodeElem_t              element;
 };
 
 struct TREE

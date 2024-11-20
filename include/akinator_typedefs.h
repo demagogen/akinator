@@ -14,6 +14,8 @@
 const size_t MaxObjectLength = 30;
 const char   TriesQuantity   =  3;
 
+const size_t MaxFileNameSize = 30;
+
 enum AKINATOR_UTILS
 {
     YES = 1,

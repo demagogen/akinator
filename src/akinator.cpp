@@ -49,10 +49,14 @@ AKINATOR_ERROR parse_user_choice(TREE* tree, NODE* node)
         case 'r':
         {
             graphic_printf(YELLOW, BOLD, "Enter file name with base for your tree:\n");
-            char* file_name = NULL;
+
+            char file_name[MaxFileNameSize] = {};
             scanf("%s", file_name);
+
             FILE* file = fopen(file_name, "r");
             tree_read(file, tree, tree->root);
+            tree_graphic_dump(tree);
+
             fclose(file);
             break;
         }
@@ -60,6 +64,7 @@ AKINATOR_ERROR parse_user_choice(TREE* tree, NODE* node)
         case 'D':
         case 'd':
         {
+
             break;
         }
 
@@ -98,85 +103,126 @@ AKINATOR_ERROR parse_user_choice(TREE* tree, NODE* node)
 }
 
 AKINATOR_ERROR game(TREE* tree, NODE* node)
-{
-    char user_answer = 0;
-    printf("in game\n");
-    while(true)
-    {
-        printf("\tin cycle\n");
-        if (node->left || node->right)
+{printf("in game\n");
+    assert(tree);
+
+    while (node->right && node->left)
+    {printf("\tin while cycle\n");
+        graphic_printf(YELLOW, BOLD, "%s?\n", node->element);
+        graphic_printf(BLUE,   BOLD, "Enter (Y/N): ");
+
+        char user_answer = 0;
+        scanf(" %c", &user_answer);
+
+        if (is_answer_yes(user_answer))
         {
-            printf("%s?\n", node->element);
-            printf("Enter (y/n):\n");
-            scanf("%c", user_answer);
-
-            switch(user_answer)
-            {
-                case 'Y':
-                case 'y':
-                    if (node->right)
-                    {
-                        node = node->right;
-                    }
-                    else
-                    {
-                        return AKINATOR_NULL_POINTER_ON_RIGHT;
-                    }
-                    break;
-
-                case 'N':
-                case 'n':
-                    if (node->left)
-                    {
-                        node = node->left;
-                    }
-                    else
-                    {
-                        return AKINATOR_NULL_POINTER_ON_LEFT;
-                    }
-                    break;
-
-                default:
-                    return AKINATOR_INVALID_ANSWER_SIDE;
-            }
-
-            game(tree, node);
+            node = node->right;
+        }
+        else if (is_answer_no(user_answer))
+        {
+            node = node->left;
         }
         else
         {
-            graphic_printf(BLUE, BOLD, "No suitable objects\n");
-            graphic_printf(BLUE, BOLD, "Add new object (write question-like definition):\n");
+            graphic_printf(RED, BOLD, "Invalid user answer =_=\n");
+        }
+    }
+    if (tree->capacity == 0)
+    {printf("\t !tree->root\n");
+        graphic_printf(CYAN, BOLD, "Wanna add element?\n");
+        graphic_printf(CYAN, BOLD, "Enter (Y/N): ");
 
-            char new_object[MaxObjectLength] = "";
-            scanf(" %s[^\n]", new_object);
+        char user_wish_add_answer = 0;
+        scanf(" %c", &user_wish_add_answer);
 
-            if (tree->capacity == 0)
+        if (is_answer_yes(user_wish_add_answer))
+        {
+            graphic_printf(CYAN, BOLD, "Enter new statement\n");
+
+            char new_statement[MaxElementSize] = {};
+            scanf(" %s[^\n]", new_statement);
+
+            tree_add(tree, tree->root, ROOT, new_statement);
+        }
+        else
+        {
+            graphic_printf(CYAN, BOLD, "Nu kak hochesh\n");
+        }
+    }
+    else
+    {
+        graphic_printf(YELLOW, BOLD, "%s?\n", node->element);
+        graphic_printf(BLUE,   BOLD, "Enter (Y/N): ");
+
+        char user_answer = 0;
+        scanf(" %c", &user_answer);
+
+        if (is_answer_yes(user_answer))
+        {
+            graphic_printf(YELLOW, BOLD, "I guessed\n%s\n", node->element);
+        }
+        else if (is_answer_no(user_answer))
+        {
+            graphic_printf(YELLOW, BOLD, "Wanna add new statement?\n");
+            graphic_printf(YELLOW, BOLD, "Enter (Y/N): ");
+
+            char user_wanna_add_answer = 0; printf("error here here here\n");
+            scanf(" %c", &user_wanna_add_answer); printf("error after this this this\n");
+
+            if (is_answer_yes(user_wanna_add_answer))
             {
-                printf("tree->capacity = %d\n", tree->capacity);
-                tree_add(tree, NULL, ROOT, new_object);
-                printf("tree->capacity = %d\n", tree->capacity);
-            tree_graphic_dump(tree); exit(0);
-                printf("\t\tended tree_add\n");
+                graphic_printf(CYAN, BOLD, "Enter new statement\n");
+
+                char new_statement[MaxElementSize] = {};
+                scanf(" %s[^\n]", new_statement);
+
+                tree_add(tree, node, LEFT, node->element); // TODO ebanaya huynya
+                node->element = new_statement;
+            }
+            else if (is_answer_no(user_wanna_add_answer))
+            {
+                graphic_printf(CYAN, BOLD, "nu kak hochesh, clown\n");
             }
             else
             {
-                switch(user_answer)
-                {
-                    case 'y':
-                        tree_add(tree, node, RIGHT, new_object);
-                    case 'n':
-                        tree_add(tree, node, LEFT, new_object);
-                }
+                graphic_printf(RED, BOLD, "zaebal\n");
             }
-            tree_graphic_dump(tree);
-            __fpurge(stdin);
-
-            break;
         }
     }
 
     options_print();
-    parse_user_choice(tree, node);
+    parse_user_choice(tree, tree->root);
 
     return AKINATOR_NONE;
+}
+
+bool is_answer_yes(char answer)
+{
+    return (answer == 'y' || answer == 'Y');
+}
+
+bool is_answer_no(char answer)
+{
+    return (answer == 'n' || answer == 'N');
+}
+
+bool is_last_node(NODE* node)
+{
+    return (!node->left || !node->right);
+}
+
+TREE_UTILS which_side(char answer)
+{
+    if (is_answer_yes(answer))
+    {
+        return RIGHT;
+    }
+    else if (is_answer_no(answer))
+    {
+        return LEFT;
+    }
+    else
+    {
+        return TREE_POISON;
+    }
 }

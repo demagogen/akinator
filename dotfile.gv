@@ -1,7 +1,10 @@
 digraph {bgcolor="#696969" rankdir = TB
-Info[shape=Mrecord,style=filled,fillcolor="grey",label="capacity: 0",fontcolor = "black",fontsize = 14];
+Info[shape=Mrecord,style=filled,fillcolor="grey",label="capacity: 1",fontcolor = "black",fontsize = 14];
 
-node0[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x5bd0e87482b0 | parent: (nil) | left:   (nil) | right:  (nil) | element: label}"];  
+node0[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x62892deb12b0 | type:   3 | parent: (nil) | left:   0x62892deb1b00 | right:  (nil) | element: pidor}"];  
+
+node0->node1[color = "grey"];
+node1[shape=Mrecord, style=filled, fillcolor="grey", label=" {address: 0x62892deb1b00 | type:   1 | parent: 0x62892deb12b0 | left:   (nil) | right:  (nil) | element: game}"];  
 
 
 }
